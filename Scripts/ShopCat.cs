@@ -14,31 +14,37 @@ public class ShopCat : MonoBehaviour
     public Transform spawnPoint;
     public CatType CatType;
     public List<CatController> listCats;
+    public Transform hitPoint;
 
+    private bool attacked = false;
+
+    protected GameObject CatPrefabs;
+        
     private void Start()
     {
         listCats = new List<CatController>();
         currentHealth = maxHealth;
-        healthBarBehaive.SetHealth(currentHealth, maxHealth);
+        healthBarBehaive.SetHealth(currentHealth, maxHealth, attacked);
     }
     public void CreateCat(int _index)
     {
         CatController _cat =  Instantiate(ListCatPrefabs[_index], spawnPoint.position, spawnPoint.rotation);
         _cat.catType = CatType;
-        _cat.gameObject.tag = CatType.ToString();
-        Cat_IngameManager.instance.SetRandomLine(_cat);
+        _cat.gameObject.tag = "Cat";
+        Cat_IngameManager.instance.SetRandomLine(_cat, _cat.catType);
         /*Gan them spline*/
         listCats.Add(_cat);
+        
+        _cat.transform.parent = transform;
     }
-
+  
     public void TakeDamageHome(int amount)
     {
-
         currentHealth -= amount;
-        healthBarBehaive.SetHealth(currentHealth, maxHealth);
+        attacked = true;
+        healthBarBehaive.SetHealth(currentHealth, maxHealth, attacked);
 
-        //healthBar.fillAmount = currentHealth / maxHealth;
-
+        DamagePopup.Create(hitPoint.position, amount);
         if (currentHealth <= 0)
         {
             DestroyHome();

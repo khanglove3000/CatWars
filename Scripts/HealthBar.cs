@@ -10,9 +10,9 @@ public class HealthBar : MonoBehaviour
     public Color high;
     public Vector3 offset;
 
-    public void SetHealth(float health, float maxHealth)
+    public void SetHealth(float health, float maxHealth, bool attacked)
     {
-        slider.gameObject.SetActive(health < maxHealth);
+        slider.gameObject.SetActive(attacked);
         slider.value = health;
         slider.maxValue = maxHealth;
         slider.fillRect.GetComponentInChildren<Image>().color = Color.Lerp(low, high, slider.normalizedValue);

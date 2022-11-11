@@ -15,7 +15,6 @@ public class DamagePopup : MonoBehaviour
         Transform damagePopupTransform = Instantiate(GameAssets.i.pfDamagePopup, position, Quaternion.identity);
         DamagePopup damagePopup = damagePopupTransform.GetComponent<DamagePopup>();
         damagePopup.SetUp(damageAmount);
-
         return damagePopup;
     }
 
