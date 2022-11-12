@@ -34,8 +34,8 @@ public class ShopCat : MonoBehaviour
         Cat_IngameManager.instance.SetRandomLine(_cat, _cat.catType);
         /*Gan them spline*/
         listCats.Add(_cat);
-        
         _cat.transform.parent = transform;
+        _cat.CatWalk();
     }
   
     public void TakeDamageHome(int amount)

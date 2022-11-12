@@ -4,10 +4,8 @@ using UnityEngine;
 
 public class Cat_Attack : MonoBehaviour
 {
-
     public CatController catController;
  
-
     public void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.tag == "Cat")
@@ -16,9 +14,11 @@ public class Cat_Attack : MonoBehaviour
             if (catController.catType != _cat.catType)
             {
                 catController.catTarget = _cat;
-                catController.ToAttack();
-              
-
+                catController.CatAttack();
+            }
+            if(catController.catTarget == null)
+            {
+                catController.CatWalk();
             }
         }
         else if (collision.gameObject.tag == "Home")
@@ -27,10 +27,10 @@ public class Cat_Attack : MonoBehaviour
             if (catController.catType != _shopCat.CatType)
             {
                 catController.homeTarget = _shopCat;
-                catController.ToAttack();
             }
         }
     }
 
+ 
 
 }

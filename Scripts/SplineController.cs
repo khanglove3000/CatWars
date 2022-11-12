@@ -5,13 +5,14 @@ using static CatWarEnum;
 public class SplineController : MonoBehaviour
 {
     public int lineNumber;
-    [SerializeField] Transform pointA;
-    [SerializeField] Transform pointB;
+    public Transform pointA;
+    public Transform pointB;
 
     private float journeyLength;
     private Vector3 _result;
     private float distCovered;
     private float fractionOfJourney;
+   
 
     public Vector3 GetPositionGo(CatController _cat, float _speed, CatType catType) 
     {
@@ -33,4 +34,5 @@ public class SplineController : MonoBehaviour
 
         return _result;
     }
+
 }
