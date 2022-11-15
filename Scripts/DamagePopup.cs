@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-
+using static CatWarEnum;
 public class DamagePopup : MonoBehaviour
 {
     public TextMeshPro textMesh;
@@ -10,11 +10,11 @@ public class DamagePopup : MonoBehaviour
     public Color textColor;
     public Vector3 moveVector;
 
-    public static DamagePopup Create(Vector3 position, int damageAmount)
-    {
-        Transform damagePopupTransform = Instantiate(GameAssets.i.pfDamagePopup, position, Quaternion.identity);
+    public static DamagePopup Create(Vector3 positionCatTarget, int damageAmount, CatType catType)
+    {    
+        Transform damagePopupTransform = Instantiate(GameAssets.i.pfDamagePopup, positionCatTarget, Quaternion.identity);
         DamagePopup damagePopup = damagePopupTransform.GetComponent<DamagePopup>();
-        damagePopup.SetUp(damageAmount);
+        damagePopup.SetUp(damageAmount, catType);
         return damagePopup;
     }
 
@@ -24,20 +24,22 @@ public class DamagePopup : MonoBehaviour
         textMesh = transform.GetComponent<TextMeshPro>();
     }
 
-    public void SetUp(int damageAmount)
+    public void SetUp(int damageAmount, CatType catType)
     {
         textMesh.SetText(damageAmount.ToString());
         
         textColor = textMesh.color;
         disappearTimer = 1f;
-
-        moveVector = new Vector3(1, 1) * 10f;
+        int _randomMoveVectorX = Random.Range(5, 15);
+        int _randomMoveVectorY = Random.Range(5, 15);
+        if (catType.ToString() == "Me") moveVector = new Vector3(_randomMoveVectorX, _randomMoveVectorY);
+        if (catType.ToString() == "Player") moveVector = new Vector3(-_randomMoveVectorX, _randomMoveVectorY);
     }
 
     private void Update()
     { 
         transform.position += moveVector * Time.deltaTime;
-        moveVector -= moveVector * 8f * Time.deltaTime;
+        moveVector -= moveVector * 5f * Time.deltaTime;
         disappearTimer -= Time.deltaTime;
         if(disappearTimer < 0)
         {

@@ -44,7 +44,7 @@ public class ShopCat : MonoBehaviour
         attacked = true;
         healthBarBehaive.SetHealth(currentHealth, maxHealth, attacked);
 
-        DamagePopup.Create(hitPoint.position, amount);
+        DamagePopup.Create(hitPoint.position, amount, CatType);
         if (currentHealth <= 0)
         {
             DestroyHome();

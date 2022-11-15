@@ -17,53 +17,72 @@ public class CatController : MonoBehaviour
 
     [Header("Movement")]
     public CatController catController;
-    [SerializeField] float catSpeed = 1f;
+    public float catSpeed = 1f;
     [SerializeField] Animator catAnimator;
     public SpriteRenderer spriteRenderer;
 
     public CatType catType;
-    IEnumerator actionCat;
+    public IEnumerator actionCat;
+    public IEnumerator actionCatFlying;
 
     [Header("Attack")]
     public int amountDamage = 5;
     public CatController catTarget = null;
     public ShopCat homeTarget = null;
-
-
+    public bool isCatAttacked = false;
+    public int amountCatAttacked = 0;
+    
     [Header("Splines")]
     public SplineController spline;
 
-    [SerializeField] protected Transform positionFlyDeadCat;
 
-    private bool isCatAttacked = false;
+    [Header("Fly Cat")]
+    public float speedFlyDeadCat = 5.0f;
+    public float distanceCatFlying = 7.0f;
+    public float moveTowers;
+    private Vector2 targetPosFlyDeadCat;
+    
 
     private void Start()
     {
         catCurrentHealth = catMaxHealth;
-        CatHealthBar.SetHealth(catCurrentHealth, catMaxHealth, isCatAttacked);
+        CatHealthBar.SetHealth(catCurrentHealth, catMaxHealth, isCatAttacked);  
     }
 
-    public void CatGetDamage(int amount)
+    public void CatGetDamage(CatController _catTarget, int amount)
     {
-        ActiveAnimationHit();
-        catCurrentHealth -= amount;
-        isCatAttacked = true;
-        CatHealthBar.SetHealth(catCurrentHealth, catMaxHealth, isCatAttacked);
-
-        DamagePopup.Create(hitPoint.position, amount);
-        
-        if (catCurrentHealth <= 0) isCatDead = true;
-        if(isCatDead)
+        if (actionCatFlying != null)
         {
-            CatHealthBar.gameObject.SetActive(false);
-            FlyingCatDead();
-            StartCoroutine(CountTimeForDie());
+            StopCoroutine(actionCatFlying);
+            actionCatFlying = null;
+        }
+        actionCatFlying = _catTarget.CatFlying();
+
+        _catTarget.ActiveAnimationHit();
+        _catTarget.catCurrentHealth -= amount;
+        _catTarget.isCatAttacked = true;
+        _catTarget.CatHealthBar.SetHealth(_catTarget.catCurrentHealth, _catTarget.catMaxHealth, _catTarget.isCatAttacked);
+
+        DamagePopup.Create(_catTarget.transform.position, amount, catType);
+      
+        _catTarget.amountCatAttacked++;
+        if (_catTarget.amountCatAttacked > 3)
+        {
+            _catTarget.amountCatAttacked = 0;
+            StartCoroutine(actionCatFlying);
+        }
+
+        if (_catTarget.catCurrentHealth <= 0) _catTarget.isCatDead = true;
+        if (_catTarget.isCatDead)
+        {
+            _catTarget.CatHealthBar.gameObject.SetActive(false);
+            StartCoroutine(_catTarget.CountTimeForDie());
         }
     }
 
     IEnumerator CountTimeForDie()
     {
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(1f);
         Destroy(gameObject);
     }
 
@@ -86,20 +105,8 @@ public class CatController : MonoBehaviour
             transform.rotation = Quaternion.Euler(0, 180, 0);
 
         ActiveAnimationWalk();
-        //transform.position = spline.GetPositionGo(this, speedWalk, catType);
-        //Vector2 _vt2 = new Vector2();
+
         while (true) {
-            //if (catType.ToString() == "Me")
-            //{
-            //    _vt2 = Vector2.MoveTowards(transform.position, spline.pointB.position, speedWalk / 100);
-
-            //}
-            //if (catType.ToString() == "Player")
-            //{
-            //    _vt2 = Vector2.MoveTowards(transform.position, spline.pointA.position, speedWalk / 100);
-            //}
-            //transform.position = new Vector2(_vt2.x, transform.position.y);
-
             transform.position = spline.GetPositionGo(this, catSpeed, catType);
             yield return null;
         }
@@ -152,19 +159,14 @@ public class CatController : MonoBehaviour
         yield return new WaitForSeconds(1f);
         catAnimator.SetBool("Hit", false);
     }
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        if (catTarget == null) {
-            CatWalk();
-        }
-    }
+
     public void CatAttack()
     {
         StopCatWalk();
         if (catTarget)
         {
             ActiveAnimationAttack();
-            CatGetDamage(amountDamage);
+            CatGetDamage(catTarget, amountDamage);
         }
 
         if (homeTarget)
@@ -174,10 +176,22 @@ public class CatController : MonoBehaviour
         }
     }
 
-    public void FlyingCatDead()
+    IEnumerator CatFlying()
     {
-        LeanTween.moveX(catController.gameObject, positionFlyDeadCat.position.x, 0.2f).setEase(LeanTweenType.easeInQuad);
-        //idTweenMainContainer = LeanTween.moveX(catController.gameObject, positionFlyDeadBody.position.x, 0.2f).setEase(LeanTweenType.easeInBack).setOnComplete(() => {}).id;
+       
+        if (catType.ToString() == "Me") moveTowers = -distanceCatFlying;
+        if (catType.ToString() == "Player") moveTowers = distanceCatFlying;
+       
+        targetPosFlyDeadCat = new Vector2(transform.position.x + moveTowers, transform.position.y);
+        while (true)
+        {
+            float step = speedFlyDeadCat * Time.deltaTime;
 
+            transform.position = Vector2.MoveTowards(transform.position, targetPosFlyDeadCat, step);
+            yield return null;
+        }
     }
+
+ 
+  
 }
