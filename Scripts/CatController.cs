@@ -38,7 +38,7 @@ public class CatController : MonoBehaviour
 
     [Header("Fly Cat")]
     public float speedFlyDeadCat = 5.0f;
-    public float distanceCatFlying = 7.0f;
+    public float distanceCatFlying = 10f;
     public float moveTowers;
     private Vector2 targetPosFlyDeadCat;
     
@@ -76,14 +76,14 @@ public class CatController : MonoBehaviour
         if (_catTarget.isCatDead)
         {
             _catTarget.CatHealthBar.gameObject.SetActive(false);
-            StartCoroutine(_catTarget.CountTimeForDie());
+            StartCoroutine(_catTarget.CountTimeForDie(_catTarget));
         }
     }
 
-    IEnumerator CountTimeForDie()
+    IEnumerator CountTimeForDie(CatController _catTager)
     {
         yield return new WaitForSeconds(1f);
-        Destroy(gameObject);
+        Destroy(_catTager.gameObject);
     }
 
     public void CatWalk()
