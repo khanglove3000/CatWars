@@ -37,55 +37,89 @@ public class CatController : MonoBehaviour
 
 
     [Header("Fly Cat")]
-    public float speedFlyDeadCat = 5.0f;
-    public float distanceCatFlying = 10f;
+    public float speedFlyDeadCat = 10f;
+    public float distanceCatFlying = 0.5f;
     public float moveTowers;
-    private Vector2 targetPosFlyDeadCat;
-    
+    private Vector3 targetPosFlyDeadCat;
+    public bool isFlyingBody = false;
 
     private void Start()
     {
         catCurrentHealth = catMaxHealth;
         CatHealthBar.SetHealth(catCurrentHealth, catMaxHealth, isCatAttacked);  
     }
+    [Button]
+    public void PressStop()
+    {
+        StopCatWalk();
+    }
+    //[Button]
+    //public void PressDamage()
+    //{
+    //    Test_CatGetDamage();
+    //}
+    //public void Test_CatGetDamage()
+    //{
+    //    if (isCatDead == true) return;
+    //    // Dùng để kích hoạt flying body
+    //    amountCatAttacked++;
+    //    if (amountCatAttacked > 3)
+    //    {
+    //        amountCatAttacked = 0;
+    //        CatFlyingBody(isCatDead);
+    //    }
 
+    //    catCurrentHealth -= 1   ;
+    //    isCatAttacked = true;
+    //    CatHealthBar.SetHealth(catCurrentHealth, catMaxHealth, isCatAttacked);
+    //    DamagePopup.Create(transform.position, 50, catType);
+
+    //    // khi cat dead thi bị đẩy lùi, và die
+    //    if (catCurrentHealth <= 0)
+    //    {
+    //        isCatDead = true;
+    //        CatHealthBar.gameObject.SetActive(false);
+    //        CatFlyingBody(isCatDead);
+    //    }
+    //}
     public void CatGetDamage(CatController _catTarget, int amount)
     {
-        if (actionCatFlying != null)
-        {
-            StopCoroutine(actionCatFlying);
-            actionCatFlying = null;
-        }
-        actionCatFlying = _catTarget.CatFlying();
-
-        _catTarget.ActiveAnimationHit();
-        _catTarget.catCurrentHealth -= amount;
-        _catTarget.isCatAttacked = true;
-        _catTarget.CatHealthBar.SetHealth(_catTarget.catCurrentHealth, _catTarget.catMaxHealth, _catTarget.isCatAttacked);
-
-        DamagePopup.Create(_catTarget.transform.position, amount, catType);
-      
+        if (_catTarget.isCatDead == true) return;
+        // Dùng để kích hoạt flying body
         _catTarget.amountCatAttacked++;
         if (_catTarget.amountCatAttacked > 3)
         {
             _catTarget.amountCatAttacked = 0;
-            StartCoroutine(actionCatFlying);
+            _catTarget.CatFlyingBody(isCatDead);
         }
 
-        if (_catTarget.catCurrentHealth <= 0) _catTarget.isCatDead = true;
-        if (_catTarget.isCatDead)
+        // dùng để nhận damage, trừ máu, hiện thanh máu, hiện chỉ số damage
+  
+        _catTarget.catCurrentHealth -= amount;
+        _catTarget.isCatAttacked = true;
+        _catTarget.CatHealthBar.SetHealth(_catTarget.catCurrentHealth, _catTarget.catMaxHealth, _catTarget.isCatAttacked);
+        DamagePopup.Create(_catTarget.transform.position, amount, catType);
+      
+        // khi cat dead thi bị đẩy lùi, và die
+        if (_catTarget.catCurrentHealth <= 0)
         {
+            _catTarget.isCatDead = true;
             _catTarget.CatHealthBar.gameObject.SetActive(false);
-            StartCoroutine(_catTarget.CountTimeForDie(_catTarget));
+            _catTarget.CatFlyingBody(isCatDead);
         }
     }
 
-    IEnumerator CountTimeForDie(CatController _catTager)
+    public void CatDead(CatController _catTarget)
     {
-        yield return new WaitForSeconds(1f);
-        Destroy(_catTager.gameObject);
-    }
+        Color tmp = spriteRenderer.color;
+        LeanTween.value(gameObject, 1, 0, 1f).setOnUpdate((float val) => {
+            tmp = new Color(tmp.r, tmp.g, tmp.b, val);
+            spriteRenderer.color = tmp;
+        });
 
+        Destroy(_catTarget.gameObject);
+    }
+    
     public void CatWalk()
     {
         if (actionCat != null)
@@ -176,22 +210,73 @@ public class CatController : MonoBehaviour
         }
     }
 
-    IEnumerator CatFlying()
+    //public void CatFlyingBody(bool _isCatDead)
+    //{
+    //    if (actionCat != null)
+    //    {
+    //        StopCoroutine(actionCat);
+    //        actionCat = null;
+    //    }
+    //    actionCat = IECatFlying(_isCatDead);
+    //    StartCoroutine(actionCat);
+    //}
+
+    public void CatFlyingBody(bool _isCatDead)
     {
-       
         if (catType.ToString() == "Me") moveTowers = -distanceCatFlying;
         if (catType.ToString() == "Player") moveTowers = distanceCatFlying;
-       
-        targetPosFlyDeadCat = new Vector2(transform.position.x + moveTowers, transform.position.y);
-        while (true)
-        {
-            float step = speedFlyDeadCat * Time.deltaTime;
+        targetPosFlyDeadCat = new Vector3(transform.position.x+moveTowers, transform.position.y);
+        StopCatWalk();
+        LeanTween.move(gameObject, targetPosFlyDeadCat, 1.0f).setOnComplete(()=> {
+            if (!_isCatDead)
+            {
+                CatWalk();
+            }
 
-            transform.position = Vector2.MoveTowards(transform.position, targetPosFlyDeadCat, step);
-            yield return null;
-        }
+            if (_isCatDead)
+            {
+                StopCatWalk();
+                CatDead(catTarget);
+            }
+        });
+     
+        //targetPosFlyDeadCat = new Vector3(moveTowers, transform.position.y);
+        /**/
+        //while (true)
+        //{
+        //    float step = speedFlyDeadCat * Time.deltaTime;
+
+        //    transform.position = spline.GetPositionFlying(this, speedFlyDeadCat, distanceCatFlying, catType, targetPosFlyDeadCat, step);
+
+        //    if(transform.position == targetPosFlyDeadCat && !_isCatDead)
+        //    {
+        //        CatWalk();
+        //        Debug.Log("CatWalk()");
+        //    }
+
+        //    if (transform.position == targetPosFlyDeadCat && _isCatDead)
+        //    {
+        //        StopCatWalk();
+        //       /* SetColorCatDead()*/;
+
+        //        ChangeCatBodyColor();
+        //        Debug.Log("StartCoroutine");
+
+        //    }
+        //    yield return null;
+        //}
     }
 
- 
-  
+    protected void ChangeCatBodyColor()
+    {
+        Color tmp = spriteRenderer.color;
+        LeanTween.value(gameObject, 1, 0, 1f).setOnUpdate((float val) => {
+            tmp = new Color(tmp.r,tmp.g,tmp.b,val);
+            spriteRenderer.color = tmp;
+        });
+        CatDead(this);
+    }
+
+
+
 }

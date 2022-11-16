@@ -381,7 +381,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6231239599611201478}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -18.01, y: -6.046, z: 0}
+  m_LocalPosition: {x: -18, y: -6.046, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children:
   - {fileID: 8399324420546509892}
@@ -496,7 +496,7 @@ SpriteRenderer:
   m_SortingLayer: 2
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 4c3ad34e5345d5a4aa82721c9c458098, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.7686275, g: 0.7686275, b: 0.7686275, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -531,10 +531,16 @@ MonoBehaviour:
   amountDamage: 5
   catTarget: {fileID: 0}
   homeTarget: {fileID: 0}
+  isCatAttacked: 0
+  amountCatAttacked: 0
   spline: {fileID: 0}
-  positionFlyDeadCat: {fileID: 0}
   speedFlyDeadCat: 10
-  targetPosFlyDeadCat: 7
+  distanceCatFlying: 10
+  moveTowers: 0
+  isFlyingBody: 0
+  startColor: {r: 0.9622642, g: 0.9622642, b: 0.9622642, a: 1}
+  endColor: {r: 1, g: 1, b: 1, a: 0}
+  speed: 0
 --- !u!1 &7279995339034756758
 GameObject:
   m_ObjectHideFlags: 0
@@ -562,7 +568,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7279995339034756758}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.381, y: 0, z: 0}
+  m_LocalPosition: {x: 0.219, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 6231239599611201529}
@@ -602,7 +608,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.004410267, y: -0.05243385}
+  m_Offset: {x: -0.07098627, y: -0.05243385}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -613,7 +619,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.42691135, y: 0.5659754}
+  m_Size: {x: 0.29375935, y: 0.5659754}
   m_EdgeRadius: 0
 --- !u!114 &3680871108227503228
 MonoBehaviour:
