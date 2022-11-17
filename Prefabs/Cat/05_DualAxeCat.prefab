@@ -451,21 +451,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08d7cce5f5f39fa41b14cb9337d6a4d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentHealth: 0
-  maxHealth: 130
-  healthBarBehaive: {fileID: 6852391540027884938}
+  catCurrentHealth: 0
+  catMaxHealth: 150
+  CatHealthBar: {fileID: 6852391540027884938}
   hitPoint: {fileID: 6852391538658747760}
-  isDead: 0
+  isCatDead: 0
   catController: {fileID: 6852391539734083339}
-  speedWalk: 1
-  animator: {fileID: 6852391539734083335}
+  catSpeed: 1
+  catAnimator: {fileID: 6852391539734083335}
   spriteRenderer: {fileID: 6852391539734083338}
   catType: 1
-  attackDamage: 18
+  amountDamage: 12
   catTarget: {fileID: 0}
   homeTarget: {fileID: 0}
+  isCatAttacked: 0
+  amountCatAttacked: 0
   spline: {fileID: 0}
-  timePaused: 0
+  speedFlyDeadCat: 10
+  distanceCatFlying: 5
+  moveTowers: 0
+  targetPosFlyDeadCat: {x: 0, y: 0, z: 0}
+  isFlyingBody: 0
+  tmp: {r: 0, g: 0, b: 0, a: 0}
 --- !u!1 &6852391540027884939
 GameObject:
   m_ObjectHideFlags: 0

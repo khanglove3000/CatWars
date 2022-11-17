@@ -87,7 +87,7 @@ GameObject:
   - component: {fileID: 192187797799974970}
   - component: {fileID: 192187797799974971}
   - component: {fileID: 192187797799974964}
-  - component: {fileID: 192187797799974965}
+  - component: {fileID: -944339178493839350}
   m_Layer: 5
   m_Name: 06_BowCat
   m_TagString: Cat
@@ -107,8 +107,8 @@ Transform:
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children:
   - {fileID: 192187798117468859}
-  - {fileID: 192187798874253902}
   - {fileID: 7957886881717334237}
+  - {fileID: 2049414822893860617}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -228,7 +228,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &192187797799974965
+--- !u!114 &-944339178493839350
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -237,23 +237,35 @@ MonoBehaviour:
   m_GameObject: {fileID: 192187797799974966}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 08d7cce5f5f39fa41b14cb9337d6a4d6, type: 3}
+  m_Script: {fileID: 11500000, guid: 053bdda9423b42c48983cc86edfc41e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentHealth: 0
-  maxHealth: 100
-  healthBarBehaive: {fileID: 192187798117468852}
-  hitPoint: {fileID: 192187798874253902}
-  isDead: 0
-  catController: {fileID: 192187797799974965}
-  speedWalk: 1
-  animator: {fileID: 192187797799974969}
+  catCurrentHealth: 0
+  catMaxHealth: 150
+  CatHealthBar: {fileID: 192187798117468852}
+  isCatDead: 0
+  catController: {fileID: -944339178493839350}
+  catSpeed: 1
+  catAnimator: {fileID: 192187797799974969}
   spriteRenderer: {fileID: 192187797799974964}
-  catType: 1
-  attackDamage: 5
+  catType: 0
+  amountDamage: 20
   catTarget: {fileID: 0}
   homeTarget: {fileID: 0}
+  isCatAttacked: 0
+  amountCatAttacked: 0
+  catAttackSpeed: 0
   spline: {fileID: 0}
+  speedFlyDeadCat: 10
+  distanceCatFlying: 5
+  moveTowers: 0
+  targetPosFlyDeadCat: {x: 0, y: 0, z: 0}
+  isFlyingBody: 0
+  tmp: {r: 0, g: 0, b: 0, a: 0}
+  bowCatWeapon: {fileID: 2744095981914896204, guid: 238ad5f51dee78244a4fdd225fcd18ea,
+    type: 3}
+  pointToShoot: {fileID: 2049414822893860617}
+  isHitTheTarget: 0
 --- !u!1 &192187798117468853
 GameObject:
   m_ObjectHideFlags: 0
@@ -480,36 +492,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!1 &192187798874253903
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 192187798874253902}
-  m_Layer: 5
-  m_Name: HitPoint
-  m_TagString: Untagged
-  m_Icon: {fileID: 2488908585195742037, guid: 0000000000000000d000000000000000, type: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &192187798874253902
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 192187798874253903}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.507, y: 0.37, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 192187797799974968}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &192187799056907922
 GameObject:
   m_ObjectHideFlags: 0
@@ -598,6 +580,36 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
+--- !u!1 &2931144080179952328
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2049414822893860617}
+  m_Layer: 0
+  m_Name: PointToShoot
+  m_TagString: Untagged
+  m_Icon: {fileID: 1206586993520771344, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2049414822893860617
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2931144080179952328}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.177, y: -0.102, z: -0.14948502}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_Children: []
+  m_Father: {fileID: 192187797799974968}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &9139604838630984732
 GameObject:
   m_ObjectHideFlags: 0
@@ -609,7 +621,7 @@ GameObject:
   - component: {fileID: 7957886881717334237}
   - component: {fileID: 2247377656000268234}
   - component: {fileID: 7026205853046198997}
-  - component: {fileID: 2810351460329373005}
+  - component: {fileID: 2355993542883640663}
   m_Layer: 5
   m_Name: RangeAttack
   m_TagString: Untagged
@@ -629,7 +641,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 192187797799974968}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &2247377656000268234
 BoxCollider2D:
@@ -644,7 +656,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.899868, y: -0.12030673}
+  m_Offset: {x: 1.3952444, y: -0.12030673}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -655,7 +667,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 2.5010242, y: 0.53096056}
+  m_Size: {x: 3.491777, y: 0.53096056}
   m_EdgeRadius: 0
 --- !u!50 &7026205853046198997
 Rigidbody2D:
@@ -678,7 +690,7 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!114 &2810351460329373005
+--- !u!114 &2355993542883640663
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -690,4 +702,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d7371eb46c85d74088426c32f62335e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  catController: {fileID: 192187797799974965}
+  catController: {fileID: -944339178493839350}

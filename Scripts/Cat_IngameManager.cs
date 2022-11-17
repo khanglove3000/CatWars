@@ -1,13 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static CatWarEnum;
+using static Cat_Enum;
 public class Cat_IngameManager : MonoBehaviour
 {
-    public List<SplineController> listSplines;
+    public List<Cat_SplineController> listSplines;
     public static Cat_IngameManager instance;
 
-    private SplineController _spline;
+    private Cat_SplineController _spline;
     private void Awake()
     {
         instance = this;
@@ -16,7 +16,7 @@ public class Cat_IngameManager : MonoBehaviour
     {
 
     }
-    public void SetRandomLine(CatController _cat, CatType catType)
+    public void SetRandomLine(Cat_Controller _cat, CatType catType)
     {
         int _number = Random.Range(0, 4);
         _spline = listSplines[_number];

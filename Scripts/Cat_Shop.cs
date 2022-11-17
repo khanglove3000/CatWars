@@ -1,19 +1,19 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static CatWarEnum;
+using static Cat_Enum;
 
-public class ShopCat : MonoBehaviour
+public class Cat_Shop : MonoBehaviour
 {
     [Header("Health")]
     public int currentHealth;
     public int maxHealth = 500;
-    public HealthBar healthBarBehaive;
+    public Cat_HealthBar healthBarBehaive;
 
-    public List<CatController> ListCatPrefabs;
+    public List<Cat_Controller> ListCatPrefabs;
     public Transform spawnPoint;
     public CatType CatType;
-    public List<CatController> listCats;
+    public List<Cat_Controller> listCats;
     public Transform hitPoint;
 
     private bool attacked = false;
@@ -22,13 +22,13 @@ public class ShopCat : MonoBehaviour
         
     private void Start()
     {
-        listCats = new List<CatController>();
+        listCats = new List<Cat_Controller>();
         currentHealth = maxHealth;
         healthBarBehaive.SetHealth(currentHealth, maxHealth, attacked);
     }
     public void CreateCat(int _index)
     {
-        CatController _cat =  Instantiate(ListCatPrefabs[_index], spawnPoint.position, spawnPoint.rotation);
+        Cat_Controller _cat =  Instantiate(ListCatPrefabs[_index], spawnPoint.position, spawnPoint.rotation);
         _cat.catType = CatType;
         _cat.gameObject.tag = "Cat";
         Cat_IngameManager.instance.SetRandomLine(_cat, _cat.catType);
@@ -38,13 +38,13 @@ public class ShopCat : MonoBehaviour
         _cat.CatWalk();
     }
   
-    public void TakeDamageHome(int amount)
+    public void HomeGetDamage(int amount)
     {
         currentHealth -= amount;
         attacked = true;
         healthBarBehaive.SetHealth(currentHealth, maxHealth, attacked);
 
-        DamagePopup.Create(hitPoint.position, amount, CatType);
+        Cat_DamagePopup.Create(hitPoint.position, amount, CatType);
         if (currentHealth <= 0)
         {
             DestroyHome();

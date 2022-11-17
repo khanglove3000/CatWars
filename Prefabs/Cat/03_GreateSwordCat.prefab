@@ -179,9 +179,15 @@ MonoBehaviour:
   amountDamage: 10
   catTarget: {fileID: 0}
   homeTarget: {fileID: 0}
+  isCatAttacked: 0
+  amountCatAttacked: 0
   spline: {fileID: 0}
   speedFlyDeadCat: 10
-  targetPosFlyDeadCat: 7
+  distanceCatFlying: 5
+  moveTowers: 0
+  targetPosFlyDeadCat: {x: 0, y: 0, z: 0}
+  isFlyingBody: 0
+  tmp: {r: 0, g: 0, b: 0, a: 0}
 --- !u!1 &1931588863165780296
 GameObject:
   m_ObjectHideFlags: 0
@@ -380,7 +386,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.27785015, y: 0.09493196}
+  m_Offset: {x: -0.26627207, y: 0.045723557}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -391,7 +397,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.19423294, y: 0.73604226}
+  m_Size: {x: 0.3447523, y: 0.83445907}
   m_EdgeRadius: 0
 --- !u!50 &3522219178885926719
 Rigidbody2D:

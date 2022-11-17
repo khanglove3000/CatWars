@@ -2,11 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CatWarEnum
+public class test : MonoBehaviour
 {
-   public enum CatType
-    {
-        Player,
-        Me
-    }
+   
 }

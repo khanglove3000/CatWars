@@ -2,18 +2,18 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using static CatWarEnum;
-public class DamagePopup : MonoBehaviour
+using static Cat_Enum;
+public class Cat_DamagePopup : MonoBehaviour
 {
     public TextMeshPro textMesh;
     public float disappearTimer;
     public Color textColor;
     public Vector3 moveVector;
 
-    public static DamagePopup Create(Vector3 positionCatTarget, int damageAmount, CatType catType)
+    public static Cat_DamagePopup Create(Vector3 positionCatTarget, int damageAmount, CatType catType)
     {    
         Transform damagePopupTransform = Instantiate(GameAssets.i.pfDamagePopup, positionCatTarget, Quaternion.identity);
-        DamagePopup damagePopup = damagePopupTransform.GetComponent<DamagePopup>();
+        Cat_DamagePopup damagePopup = damagePopupTransform.GetComponent<Cat_DamagePopup>();
         damagePopup.SetUp(damageAmount, catType);
         return damagePopup;
     }

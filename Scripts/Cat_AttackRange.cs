@@ -2,17 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Cat_Attack : MonoBehaviour
+public class Cat_AttackRange : MonoBehaviour
 {
-    public CatController catController;
+    public Cat_Controller catController;
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    public void OnTriggerEnter2D(Collider2D collision)
     {
-      
-
         if (collision.gameObject.tag == "Home")
         {
-            ShopCat _shopCat = collision.gameObject.GetComponent<ShopCat>();
+            Cat_Shop _shopCat = collision.gameObject.GetComponent<Cat_Shop>();
             if (catController.catType != _shopCat.CatType)
             {
                 catController.homeTarget = _shopCat;
@@ -21,13 +19,13 @@ public class Cat_Attack : MonoBehaviour
         }
 
     }
-    protected void OnTriggerStay2D(Collider2D collision)
+    public void OnTriggerStay2D(Collider2D collision)
     {
         if (catController.catTarget != null) return;
 
         if (collision.gameObject.tag != "Cat") return;
 
-        CatController _cat = collision.gameObject.GetComponent<CatController>();
+        Cat_Controller _cat = collision.gameObject.GetComponent<Cat_Controller>();
         if (catController.catType != _cat.catType)
         {
             catController.catTarget = _cat;
@@ -35,14 +33,17 @@ public class Cat_Attack : MonoBehaviour
         }
     }
 
-    protected void OnTriggerExit2D(Collider2D collision)
+    public void OnTriggerExit2D(Collider2D collision)
     {
+        
+
         catController.catTarget = null;
         catController.isCatAttacked = false;
         if (catController.CatHealthBar == null) return;
         StartCoroutine(WaitForOffHealthBar());
         catController.CatHealthBar.SetHealth(catController.catCurrentHealth, catController.catMaxHealth, catController.isCatAttacked);
         catController.CatWalk();
+        
     }
 
     protected IEnumerator WaitForOffHealthBar()

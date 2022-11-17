@@ -1,8 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static CatWarEnum;
-public class SplineController : MonoBehaviour
+using static Cat_Enum;
+public class Cat_SplineController : MonoBehaviour
 {
     public int lineNumber;
     public Transform pointA;
@@ -16,7 +16,7 @@ public class SplineController : MonoBehaviour
     private Vector3 _resultFlyingBody;
 
 
-    public Vector3 GetPositionGo(CatController _cat, float _speed, CatType catType) 
+    public Vector3 GetPositionGo(Cat_Controller _cat, float _speed, CatType catType) 
     {
         distCovered = _speed / 100;
        
@@ -37,7 +37,7 @@ public class SplineController : MonoBehaviour
         return _result;
     }
 
-    public Vector3 GetPositionFlying(CatController _cat, float speedFlyDeadCat, float distanceCatFlying, CatType catType, Vector3 targetPosFlyDeadCat, float step)
+    public Vector3 GetPositionFlying(Cat_Controller _cat, float speedFlyDeadCat, float distanceCatFlying, CatType catType, Vector3 targetPosFlyDeadCat, float step)
     {
         _resultFlyingBody = Vector3.MoveTowards(_cat.transform.position, targetPosFlyDeadCat, step);
         return _resultFlyingBody;
