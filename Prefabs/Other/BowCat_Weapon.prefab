@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3463933703546406664}
   - component: {fileID: 3463933703546406663}
-  - component: {fileID: 2744095981914896204}
+  - component: {fileID: 6356987489642164383}
   m_Layer: 0
   m_Name: BowCat_Weapon
   m_TagString: Untagged
@@ -82,7 +82,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &2744095981914896204
+--- !u!114 &6356987489642164383
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

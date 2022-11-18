@@ -10,14 +10,20 @@ public class BowCat_Weapon : MonoBehaviour
     public Transform _posTarget = null;
     public void BowCatWeaponMovement(Cat_Controller _catTarget, Cat_Shop _catShop)
     {
+     
         if (_catShop != null) _posTarget = _catShop.transform;
         if (_catTarget != null) _posTarget = _catTarget.transform;
-        LeanTween.move(gameObject, _posTarget.position, weaponSpeed).setOnComplete(() => 
-        { 
+        if (_posTarget == null) 
+        {
+            Destroy(gameObject);
+            return;
+        };
+        LeanTween.move(gameObject, _posTarget.position, weaponSpeed).setOnComplete(() =>
+        {
             bowCat.isHitTheTarget = true;
             Destroy(gameObject);
         });
-        
+
     }
 
 }

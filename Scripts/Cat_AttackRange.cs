@@ -43,6 +43,7 @@ public class Cat_AttackRange : MonoBehaviour
         StartCoroutine(WaitForOffHealthBar());
         catController.CatHealthBar.SetHealth(catController.catCurrentHealth, catController.catMaxHealth, catController.isCatAttacked);
         catController.CatWalk();
+        Debug.Log("Cat Range Attack - Cat Walk");
         
     }
 

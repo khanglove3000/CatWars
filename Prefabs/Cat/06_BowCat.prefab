@@ -241,20 +241,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   catCurrentHealth: 0
-  catMaxHealth: 150
+  catMaxHealth: 100
   CatHealthBar: {fileID: 192187798117468852}
   isCatDead: 0
   catController: {fileID: -944339178493839350}
-  catSpeed: 1
+  catWalkSpeed: 1
   catAnimator: {fileID: 192187797799974969}
   spriteRenderer: {fileID: 192187797799974964}
   catType: 0
-  amountDamage: 20
+  amountDamage: 15
   catTarget: {fileID: 0}
   homeTarget: {fileID: 0}
   isCatAttacked: 0
   amountCatAttacked: 0
-  catAttackSpeed: 0
+  catAttackSpeed: 1
+  catDurationAttack: 1
   spline: {fileID: 0}
   speedFlyDeadCat: 10
   distanceCatFlying: 5
@@ -262,10 +263,11 @@ MonoBehaviour:
   targetPosFlyDeadCat: {x: 0, y: 0, z: 0}
   isFlyingBody: 0
   tmp: {r: 0, g: 0, b: 0, a: 0}
-  bowCatWeapon: {fileID: 2744095981914896204, guid: 238ad5f51dee78244a4fdd225fcd18ea,
+  bowCatWeapon: {fileID: 6356987489642164383, guid: 238ad5f51dee78244a4fdd225fcd18ea,
     type: 3}
   pointToShoot: {fileID: 2049414822893860617}
-  isHitTheTarget: 0
+  isHitTheTarget: 1
+  _bowCatWeapon: {fileID: 0}
 --- !u!1 &192187798117468853
 GameObject:
   m_ObjectHideFlags: 0

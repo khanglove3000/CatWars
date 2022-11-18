@@ -36,6 +36,7 @@ public class Cat_Shop : MonoBehaviour
         listCats.Add(_cat);
         _cat.transform.parent = transform;
         _cat.CatWalk();
+        Debug.Log("Create cat - Cat Walk");
     }
   
     public void HomeGetDamage(int amount)
