@@ -46,17 +46,6 @@ public class Cat_Controller : MonoBehaviour
     [Header("Change body color")]
     public Color tmp;
 
-    [Button]
-    public void PressToStop()
-    {
-        StopCatWalk();
-    }
-    [Button]
-    public void PressToAttack()
-    {
-       StartCoroutine(AutoAttack());
-    }
-
     private void Start()
     {
         catCurrentHealth = catMaxHealth;
@@ -106,7 +95,7 @@ public class Cat_Controller : MonoBehaviour
         actionCat = CatMovement();
         StartCoroutine(actionCat);
     }
-    IEnumerator CatMovement()
+    public virtual IEnumerator CatMovement()
     {
         if (catType != CatType.Me)
             transform.rotation = Quaternion.Euler(0, 180, 0);
@@ -127,18 +116,29 @@ public class Cat_Controller : MonoBehaviour
         catAnimator.SetFloat("Walk", catWalkSpeed);
     } 
 
-    public IEnumerator AutoAttack()
+    public virtual IEnumerator WaitForNextCatAttack()
     {
         while (true)
         {
-            //catAnimator.SetFloat("Attack", catAttackSpeed);
             catAnimator.SetBool("Attack", true);
+
+            if (catTarget != null)
+            {
+                homeTarget = null;
+                catTarget.CatGetDamage(amountDamage);
+            }
+
+            if (homeTarget != null)
+            {
+                 homeTarget.HomeGetDamage(amountDamage);
+            }
+
             catAnimator.speed = (catAttackSpeed < 1) ? 1 : catAttackSpeed;
             float _lengthAnim = (catAttackSpeed <= 1) ? catAnimator.GetCurrentAnimatorClipInfo(0)[0].clip.length / catAnimator.GetCurrentAnimatorStateInfo(0).speed
                        : (catAnimator.GetCurrentAnimatorClipInfo(0)[0].clip.length / catAttackSpeed) / catAnimator.GetCurrentAnimatorStateInfo(0).speed;
             //Debug.LogError("_lengthAnim: " + _lengthAnim);
             yield return new WaitForSeconds(_lengthAnim);
-            catAnimator.SetFloat("Attack", -1);
+            catAnimator.SetBool("Attack", false);
             float waitTime = (catDurationAttack / catAttackSpeed) - _lengthAnim;
             yield return new WaitForSeconds(waitTime);
             //Debug.LogError("waitTime: " + waitTime);
@@ -151,18 +151,10 @@ public class Cat_Controller : MonoBehaviour
     public virtual void CatAttack()
     {
         StopCatWalk();
-        if (homeTarget)
-        {
-            catAnimator.SetBool("Attack", true);
-            homeTarget.HomeGetDamage(amountDamage);
-        }
         if (catTarget == null) return;
         if (catTarget.isCatDead == true) catTarget = null;
-        if (catTarget)
-        {
-            catAnimator.SetBool("Attack", true);
-            catTarget.CatGetDamage(amountDamage);
-        }
+        if (catTarget) homeTarget = null;
+        StartCoroutine(catController.WaitForNextCatAttack());
     }
     // Cat flying body when cat die or attacked > 3
     public void CatFlyingBody(bool _isCatDead)
@@ -180,7 +172,7 @@ public class Cat_Controller : MonoBehaviour
             {
                 this.catWalkSpeed = _temp;
                 this.CatWalk();
-                Debug.Log("Cat flying body - Cat walk");
+                //Debug.Log("Cat flying body - Cat walk");
             }
 
             if (_isCatDead)

@@ -11,7 +11,8 @@ public class Cat_Shop : MonoBehaviour
     public Cat_HealthBar healthBarBehaive;
 
     public List<Cat_Controller> ListCatPrefabs;
-    public Transform spawnPoint;
+    //public Transform spawnPoint;
+    public List<Transform> spawnPoints;
     public CatType CatType;
     public List<Cat_Controller> listCats;
     public Transform hitPoint;
@@ -28,7 +29,9 @@ public class Cat_Shop : MonoBehaviour
     }
     public void CreateCat(int _index)
     {
-        Cat_Controller _cat =  Instantiate(ListCatPrefabs[_index], spawnPoint.position, spawnPoint.rotation);
+        int _number = Random.Range(0, 4);
+        Transform _transform = spawnPoints[_number];
+        Cat_Controller _cat =  Instantiate(ListCatPrefabs[_index], _transform.position, _transform.rotation);
         _cat.catType = CatType;
         _cat.gameObject.tag = "Cat";
         Cat_IngameManager.instance.SetRandomLine(_cat, _cat.catType);
@@ -36,9 +39,9 @@ public class Cat_Shop : MonoBehaviour
         listCats.Add(_cat);
         _cat.transform.parent = transform;
         _cat.CatWalk();
-        Debug.Log("Create cat - Cat Walk");
+        //Debug.Log("Create cat - Cat Walk");
     }
-  
+
     public void HomeGetDamage(int amount)
     {
         currentHealth -= amount;
